@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from lib_nrf24 import NRF24
 import time
 import spidev
+import idLine_v6
 
 GPIO.setmode(GPIO.BCM)
 
@@ -29,7 +30,11 @@ while len(message) < 32:
 
 while True:
     start = time.time()
+    # Reads angle value from idLine_v6 for each loop iteration so that value is continuously updated
+    angle = idLine_v6.cx
     radio.write(message)
+    #Added following line of code to transmit angle found by idLine_v6
+    radio.write(angle)
     print("Sent the message: {}".format(message))
     radio.startListening()
 
