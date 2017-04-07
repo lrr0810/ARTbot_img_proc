@@ -3,6 +3,8 @@ import cv2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
+import NRF24L01
+import _thread
 
 cx = 0
 camera = PiCamera()
@@ -40,6 +42,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
        cx = int(M['m10']/M['m00'])
        cy = int(M['m01']/M['m00'])
    print(str(cx))
+   # Starts new thread for radio lstening/ transmitting cx
+   _thread.start_new_thread(radio_comm(cx))
 
    cv2.imshow('frame',img1) #show video
    key = cv2.waitKey(1) & 0xFF
@@ -50,4 +54,13 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
    if key == ord("q"):
          break
 
-
+# Definition for radio comm thread function
+def radio_comm(cx):
+   radio.write(cx)
+   radio.startListening
+   
+    while not radio.available(0):
+        time.sleep(1/100)
+        if time.time() - start >2:
+            print("Timed out.")
+            break
