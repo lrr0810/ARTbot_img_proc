@@ -43,7 +43,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
        cy = int(M['m01']/M['m00'])
    print(str(cx))
    # Starts new thread for radio lstening/ transmitting cx
-   _thread.start_new_thread(radio_comm(cx))
+   #_thread.start_new_thread(radio_comm(cx))
 
    cv2.imshow('frame',img1) #show video
    key = cv2.waitKey(1) & 0xFF
@@ -55,7 +55,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
          break
 
 # Definition for radio comm thread function
-def radio_comm(cx):
+"""def radio_comm(cx):
    radio.write(cx)
    radio.startListening
    
@@ -64,3 +64,4 @@ def radio_comm(cx):
         if time.time() - start >2:
             print("Timed out.")
             break
+"""
